@@ -213,10 +213,10 @@ resource "oci_core_security_list" "untrt_security_list" {
 }
 
 # -----------------------------------------------------------------------------
-#                               GATEWAYS                                      #
+#                               GATEWAYS for HUB VCN                          #
 # -----------------------------------------------------------------------------
 
-resource "oci_core_service_gateway" "service_gateway" {
+resource "oci_core_service_gateway" "hub_service_gateway" {
 
   compartment_id = oci_identity_compartment.hub_network_compartment.id
   services {
@@ -224,21 +224,21 @@ resource "oci_core_service_gateway" "service_gateway" {
   }
   vcn_id = oci_core_vcn.hub_vcn.id
 
-  display_name = var.service_gateway_display_name
+  display_name = var.hub_service_gateway_display_name
 }
 resource "oci_core_internet_gateway" "hub_internet_gateway" {
 
   compartment_id = oci_identity_compartment.hub_network_compartment.id
   vcn_id         = oci_core_vcn.hub_vcn.id
 
-  enabled      = var.internet_gateway_enabled
-  display_name = var.internet_gateway_display_name
+  enabled      = var.hub_internet_gateway_enabled
+  display_name = var.hub_internet_gateway_display_name
 }
-resource "oci_core_nat_gateway" "nat_gateway" {
+resource "oci_core_nat_gateway" "hub_nat_gateway" {
   #Required
   compartment_id = oci_identity_compartment.hub_network_compartment.id
   vcn_id         = oci_core_vcn.hub_vcn.id
-  display_name   = var.nat_gateway_display_name
+  display_name   = var.hub_nat_gateway_display_name
 }
 
 # -----------------------------------------------------------------------------
@@ -251,7 +251,7 @@ resource "oci_core_route_table" "mgmt_route_table" {
   display_name   = var.mgmt_route_table_display_name
   route_rules {
     #Required
-    network_entity_id = oci_core_nat_gateway.nat_gateway.id
+    network_entity_id = oci_core_nat_gateway.hub_nat_gateway.id
     destination       = "0.0.0.0/0"
   }
   route_rules {
@@ -268,7 +268,7 @@ resource "oci_core_route_table" "trt_route_table" {
   display_name   = var.trt_route_table_display_name
   route_rules {
     #Required
-    network_entity_id = oci_core_nat_gateway.nat_gateway.id
+    network_entity_id = oci_core_nat_gateway.hub_nat_gateway.id
     destination       = "0.0.0.0/0"
   }
 }
@@ -279,7 +279,7 @@ resource "oci_core_route_table" "untrt_route_table" {
   display_name   = var.untrt_route_table_display_name
   route_rules {
     #Required
-    network_entity_id = oci_core_nat_gateway.nat_gateway.id
+    network_entity_id = oci_core_nat_gateway.hub_nat_gateway.id
     destination       = "0.0.0.0/0"
   }
 }
@@ -427,6 +427,35 @@ resource "oci_core_subnet" "exa_subnet" {
   prohibit_public_ip_on_vnic = var.exa_subnet_prohibit_public_ip_on_vnic
   route_table_id             = oci_core_route_table.exa_route_table.id
   security_list_ids          = [oci_core_security_list.exa_security_list.id]
+}
+
+# -----------------------------------------------------------------------------
+#                               GATEWAYS for Prod VCN                         #
+# -----------------------------------------------------------------------------
+
+resource "oci_core_service_gateway" "prod_service_gateway" {
+
+  compartment_id = oci_identity_compartment.network_compartment.id
+  services {
+    service_id = data.oci_core_services.services.services.0.id
+  }
+  vcn_id = oci_core_vcn.prod_vcn.id
+
+  display_name = var.prod_service_gateway_display_name
+}
+resource "oci_core_internet_gateway" "prod_internet_gateway" {
+
+  compartment_id = oci_identity_compartment.network_compartment.id
+  vcn_id         = oci_core_vcn.prod_vcn.id
+
+  enabled      = var.prod_internet_gateway_enabled
+  display_name = var.prod_internet_gateway_display_name
+}
+resource "oci_core_nat_gateway" "prod_nat_gateway" {
+  #Required
+  compartment_id = oci_identity_compartment.network_compartment.id
+  vcn_id         = oci_core_vcn.prod_vcn.id
+  display_name   = var.prod_nat_gateway_display_name
 }
 
 # -----------------------------------------------------------------------------
