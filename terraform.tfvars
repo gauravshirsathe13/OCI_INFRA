@@ -14,8 +14,16 @@ hub_vcn_dns_label                   = "hubvcniad"
 drg_display_name                    = "drg-hub-iad"
 drg_attachment_display_name         = "drg-hub-attach"
 drg_attachment_network_details_type = "VCN"
-internet_gateway_enabled            = true
-internet_gateway_display_name       = "igw-hub-iad"
+
+hub_internet_gateway_enabled      = true
+hub_internet_gateway_display_name = "igw-hub-iad"
+hub_nat_gateway_display_name      = "nat-hub-iad"
+hub_service_gateway_display_name  = "sgw-hub-iad"
+
+prod_internet_gateway_enabled      = true
+prod_internet_gateway_display_name = "igw-prod-iad"
+prod_nat_gateway_display_name      = "nat-prod-iad"
+prod_service_gateway_display_name  = "sgw-prod-iad"
 
 drg_route_table_route_rule_route_rules_destination      = "10.0.0.0/8"
 drg_route_table_route_rule_route_rules_destination_type = "CIDR_BLOCK"
@@ -24,8 +32,6 @@ prod_vcn_cidr_blocks  = ["11.0.0.0/16"]
 prod_vcn_display_name = "vcn-prod-iad"
 prod_vcn_dns_label    = "vcnprodiad"
 
-nat_gateway_display_name     = "nat-hub-iad"
-service_gateway_display_name = "sgw-hub-iad"
 
 mgmt_subnet_cidr_block                 = "10.0.64.0/22"
 mgmt_subnet_display_name               = "sub-mgmt-hub-iad"
