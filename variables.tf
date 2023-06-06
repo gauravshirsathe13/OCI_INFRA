@@ -293,25 +293,25 @@ variable "drg_route_table_route_rule_route_rules_destination_type" {
 }
 
 # -----------------------------------------------------------------------------
-# Gateway Variables
+# Gateway Variables for HUB VCN
 # -----------------------------------------------------------------------------
 
-variable "internet_gateway_enabled" {
+variable "hub_internet_gateway_enabled" {
   type        = bool
   description = "Should IG be enabled in HUB VCN? True/False"
 }
 
-variable "internet_gateway_display_name" {
+variable "hub_internet_gateway_display_name" {
   type        = string
   description = "Name of Internet Gateway connected to HUB VCN"
 }
 
-variable "nat_gateway_display_name" {
+variable "hub_nat_gateway_display_name" {
   type        = string
   description = "Should NAT be enabled in HUB VCN? True/False"
 }
 
-variable "service_gateway_display_name" {
+variable "hub_service_gateway_display_name" {
   type        = string
   description = "Should SG be enabled in HUB VCN? True/False"
 }
@@ -453,4 +453,29 @@ variable "exa_route_table_display_name" {
 variable "dmz_route_table_display_name" {
   type        = string
   description = "Route table name for DMZ subnet"
+}
+
+
+# -----------------------------------------------------------------------------
+# Gateway Variables for Prod VCN
+# -----------------------------------------------------------------------------
+
+variable "prod_internet_gateway_enabled" {
+  type        = bool
+  description = "Should IG be enabled in Prod VCN? True/False"
+}
+
+variable "prod_internet_gateway_display_name" {
+  type        = string
+  description = "Name of Internet Gateway connected to Prod VCN"
+}
+
+variable "prod_nat_gateway_display_name" {
+  type        = string
+  description = "Should NAT be enabled in Prod VCN? True/False"
+}
+
+variable "prod_service_gateway_display_name" {
+  type        = string
+  description = "Should SG be enabled in Prod VCN? True/False"
 }
